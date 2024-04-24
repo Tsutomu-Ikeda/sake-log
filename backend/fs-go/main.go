@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"github.com/caarlos0/env"
-	_ "github.com/mattn/go-sqlite3"
+	_ "modernc.org/sqlite"
 )
 
 type config struct {
@@ -21,7 +21,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	database, err := sql.Open("sqlite3", cfg.DatabasePath)
+	database, err := sql.Open("sqlite", cfg.DatabasePath)
 	if err != nil {
 		log.Fatal(err)
 	}

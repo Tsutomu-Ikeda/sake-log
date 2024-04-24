@@ -1,16 +1,14 @@
-FROM golang:alpine AS builder
+FROM golang:1.22 as builder
 
-ENV CGO_ENABLED=1
-
-RUN apk add --no-cache git gcc musl-dev
+ENV CGO_ENABLED=0
 
 WORKDIR /app
-COPY . .
+COPY ./main.go .
 RUN go mod init example.com/myapp
 RUN go get -d -v
 RUN go build -o main .
 
-FROM alpine
+FROM gcr.io/distroless/static AS distroless
 
 WORKDIR /app
 COPY --from=builder /app/main .
